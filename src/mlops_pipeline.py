@@ -4,7 +4,7 @@ import mlflow
 from src.common.mlflow_utils import setup_mlflow
 from src.common.validation import validate_challenge_name
 from src.cancer.pipeline import run_cancer_pipeline
-from src.nlp_glassdoor.pipeline import run_nlp_pipeline
+from nlp_glassdoor.pipeline_2 import run_nlp_pipeline
 
 
 def parse_args():
