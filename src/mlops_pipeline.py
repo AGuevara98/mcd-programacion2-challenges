@@ -1,9 +1,10 @@
 import argparse
 import mlflow
 
-from src.common.validation import validate_challenge_name
 from src.common.mlflow_utils import setup_mlflow
+from src.common.validation import validate_challenge_name
 from src.cancer.pipeline import run_cancer_pipeline
+from src.nlp_glassdoor.pipeline import run_nlp_pipeline
 
 
 def parse_args():
@@ -23,10 +24,15 @@ def main():
             if not args.data_path:
                 raise ValueError("Cancer challenge requires --data_path")
             results = run_cancer_pipeline(args.data_path)
+
         elif args.challenge == "nlp":
-            raise NotImplementedError("NLP pipeline not yet implemented.")
+            if not args.data_path:
+                raise ValueError("NLP challenge requires --data_path")
+            results = run_nlp_pipeline(args.data_path)
+
         elif args.challenge == "thesis":
             raise NotImplementedError("Thesis pipeline not yet implemented.")
+
         else:
             raise ValueError(f"Unexpected challenge: {args.challenge}")
 

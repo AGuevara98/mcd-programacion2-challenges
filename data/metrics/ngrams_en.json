@@ -1,0 +1,334 @@
+{
+  "positive": {
+    "1-gram": [
+      [
+        "good",
+        132
+      ],
+      [
+        "work",
+        105
+      ],
+      [
+        "great",
+        87
+      ],
+      [
+        "de",
+        50
+      ],
+      [
+        "benefit",
+        45
+      ],
+      [
+        "las",
+        41
+      ],
+      [
+        "people",
+        38
+      ],
+      [
+        "life",
+        36
+      ],
+      [
+        "balance",
+        34
+      ],
+      [
+        "culture",
+        33
+      ],
+      [
+        "team",
+        29
+      ],
+      [
+        "employee",
+        27
+      ],
+      [
+        "company",
+        26
+      ],
+      [
+        "dicen",
+        25
+      ],
+      [
+        "empleados",
+        25
+      ],
+      [
+        "en",
+        25
+      ],
+      [
+        "evaluaciones",
+        25
+      ],
+      [
+        "los",
+        25
+      ],
+      [
+        "reale",
+        25
+      ],
+      [
+        "según",
+        25
+      ]
+    ],
+    "2-gram": [
+      [
+        "life balance",
+        34
+      ],
+      [
+        "work life",
+        34
+      ],
+      [
+        "good work",
+        31
+      ],
+      [
+        "de empleados",
+        25
+      ],
+      [
+        "de trabajar",
+        25
+      ],
+      [
+        "empleados reale",
+        25
+      ],
+      [
+        "evaluaciones de",
+        25
+      ],
+      [
+        "las evaluaciones",
+        25
+      ],
+      [
+        "los usuarios",
+        25
+      ],
+      [
+        "reale los",
+        25
+      ],
+      [
+        "según las",
+        25
+      ],
+      [
+        "trabajar en",
+        25
+      ],
+      [
+        "usuarios dicen",
+        25
+      ],
+      [
+        "great benefit",
+        21
+      ],
+      [
+        "son las",
+        16
+      ],
+      [
+        "cuále son",
+        14
+      ],
+      [
+        "work culture",
+        13
+      ],
+      [
+        "dicen good",
+        12
+      ],
+      [
+        "good benefit",
+        11
+      ],
+      [
+        "accord real",
+        10
+      ]
+    ]
+  },
+  "negative": {
+    "1-gram": [
+      [
+        "employee",
+        83
+      ],
+      [
+        "de",
+        58
+      ],
+      [
+        "work",
+        54
+      ],
+      [
+        "en",
+        53
+      ],
+      [
+        "los",
+        51
+      ],
+      [
+        "layoff",
+        35
+      ],
+      [
+        "management",
+        35
+      ],
+      [
+        "salary",
+        32
+      ],
+      [
+        "empleados",
+        31
+      ],
+      [
+        "leadership",
+        31
+      ],
+      [
+        "manager",
+        31
+      ],
+      [
+        "low",
+        29
+      ],
+      [
+        "las",
+        25
+      ],
+      [
+        "bad",
+        24
+      ],
+      [
+        "project",
+        24
+      ],
+      [
+        "dicen",
+        23
+      ],
+      [
+        "hour",
+        22
+      ],
+      [
+        "lot",
+        22
+      ],
+      [
+        "review",
+        22
+      ],
+      [
+        "job",
+        21
+      ]
+    ],
+    "2-gram": [
+      [
+        "employee review",
+        20
+      ],
+      [
+        "employee say",
+        20
+      ],
+      [
+        "de empleados",
+        17
+      ],
+      [
+        "de trabajar",
+        17
+      ],
+      [
+        "empleados reale",
+        17
+      ],
+      [
+        "evaluaciones de",
+        17
+      ],
+      [
+        "las evaluaciones",
+        17
+      ],
+      [
+        "los usuarios",
+        17
+      ],
+      [
+        "reale los",
+        17
+      ],
+      [
+        "según las",
+        17
+      ],
+      [
+        "trabajar en",
+        17
+      ],
+      [
+        "usuarios dicen",
+        17
+      ],
+      [
+        "los empleados",
+        14
+      ],
+      [
+        "receive high",
+        13
+      ],
+      [
+        "despidos en",
+        12
+      ],
+      [
+        "life balance",
+        12
+      ],
+      [
+        "los despidos",
+        12
+      ],
+      [
+        "sobre los",
+        12
+      ],
+      [
+        "work life",
+        12
+      ],
+      [
+        "consultancy service",
+        11
+      ]
+    ]
+  }
+}

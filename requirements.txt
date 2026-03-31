@@ -5,3 +5,10 @@ matplotlib
 mlflow
 joblib
 argparse
+langdetect
+spacy
+vaderSentiment
+pysentimiento
+requests
+beautifulsoup4
+lxml

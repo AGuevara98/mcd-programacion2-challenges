@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.mcd_challenges/
+mcd_challenges/
+env/
+mlruns/
+outputs/
+.ipynb_checkpoints/
+.DS_Store

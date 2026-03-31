@@ -27,4 +27,4 @@ def log_artifact(file_path: str) -> None:
 
 def log_model(model, X_sample, run_name: str = "model") -> None:
     signature = infer_signature(X_sample, model.predict(X_sample))
-    mlflow.sklearn.log_model(model, artifact_path=run_name, signature=signature)
+    mlflow.sklearn.log_model(model, name=run_name, signature=signature)
