@@ -1,30 +1,20 @@
 import mlflow
-import mlflow.sklearn
-from mlflow.models.signature import infer_signature
 
-from src.common.config import MLFLOW_TRACKING_URI, MLFLOW_EXPERIMENT_NAME
+def setup_mlflow():
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
+    mlflow.set_experiment("mcd_challenges")
 
+def log_params(params: dict):
+    mlflow.log_params(params)
 
-def setup_mlflow() -> None:
-    mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
-    mlflow.set_experiment(MLFLOW_EXPERIMENT_NAME)
+def log_metrics(metrics: dict):
+    for k, v in metrics.items():
+        if isinstance(v, (int, float)):
+            mlflow.log_metric(k, v)
 
+def log_artifact(path: str):
+    mlflow.log_artifact(path)
 
-def log_params(params: dict) -> None:
-    for key, value in params.items():
-        mlflow.log_param(key, value)
-
-
-def log_metrics(metrics: dict) -> None:
-    for key, value in metrics.items():
-        if isinstance(value, (int, float)):
-            mlflow.log_metric(key, value)
-
-
-def log_artifact(file_path: str) -> None:
-    mlflow.log_artifact(file_path)
-
-
-def log_model(model, X_sample, run_name: str = "model") -> None:
-    signature = infer_signature(X_sample, model.predict(X_sample))
-    mlflow.sklearn.log_model(model, name=run_name, signature=signature)
+def log_model(model, example_input, run_name="model"):
+    import mlflow.sklearn
+    mlflow.sklearn.log_model(model, run_name, input_example=example_input)

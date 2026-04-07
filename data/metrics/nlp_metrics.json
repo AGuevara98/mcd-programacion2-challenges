@@ -1,0 +1,287 @@
+{
+    "summary": {
+        "n_scraped_reviews": 375,
+        "n_text_segments": 750,
+        "n_processed_segments": 750,
+        "language_counts": {
+            "es": 399,
+            "en": 328,
+            "unknown": 23
+        },
+        "segment_label_counts": {
+            "pros": 375,
+            "cons": 375
+        },
+        "ngram_summary": {
+            "en": {
+                "top_bigrams": [
+                    [
+                        "life balance",
+                        25
+                    ],
+                    [
+                        "work life",
+                        25
+                    ],
+                    [
+                        "good work",
+                        10
+                    ],
+                    [
+                        "good pay",
+                        8
+                    ],
+                    [
+                        "pay benefit",
+                        8
+                    ],
+                    [
+                        "long term",
+                        6
+                    ],
+                    [
+                        "decent pay",
+                        5
+                    ],
+                    [
+                        "free food",
+                        5
+                    ],
+                    [
+                        "good benefit",
+                        5
+                    ],
+                    [
+                        "great benefit",
+                        5
+                    ],
+                    [
+                        "balance good",
+                        4
+                    ],
+                    [
+                        "career growth",
+                        4
+                    ],
+                    [
+                        "flexible work",
+                        4
+                    ],
+                    [
+                        "good environment",
+                        4
+                    ],
+                    [
+                        "great place",
+                        4
+                    ]
+                ],
+                "top_trigrams": [
+                    [
+                        "work life balance",
+                        25
+                    ],
+                    [
+                        "good work life",
+                        6
+                    ],
+                    [
+                        "life balance good",
+                        4
+                    ],
+                    [
+                        "good pay benefit",
+                        3
+                    ],
+                    [
+                        "good work culture",
+                        3
+                    ],
+                    [
+                        "great work life",
+                        3
+                    ],
+                    [
+                        "bad work life",
+                        2
+                    ],
+                    [
+                        "decent pay benefit",
+                        2
+                    ],
+                    [
+                        "good place work",
+                        2
+                    ],
+                    [
+                        "great benefit nice",
+                        2
+                    ],
+                    [
+                        "high performance culture",
+                        2
+                    ],
+                    [
+                        "pay good benefit",
+                        2
+                    ],
+                    [
+                        "short long term",
+                        2
+                    ],
+                    [
+                        "abcent usual absent",
+                        1
+                    ],
+                    [
+                        "able learn alot",
+                        1
+                    ]
+                ]
+            },
+            "es": {
+                "top_bigrams": [
+                    [
+                        "ambiente laboral",
+                        33
+                    ],
+                    [
+                        "trabajo remoto",
+                        13
+                    ],
+                    [
+                        "depender proyecto",
+                        10
+                    ],
+                    [
+                        "prestaci\u00f3n superior",
+                        10
+                    ],
+                    [
+                        "fondo ahorro",
+                        8
+                    ],
+                    [
+                        "oportunidad crecimiento",
+                        8
+                    ],
+                    [
+                        "vida personal",
+                        8
+                    ],
+                    [
+                        "sueldo competitivo",
+                        7
+                    ],
+                    [
+                        "sueldo prestaci\u00f3n",
+                        7
+                    ],
+                    [
+                        "superior ley",
+                        7
+                    ],
+                    [
+                        "ambiente trabajo",
+                        6
+                    ],
+                    [
+                        "aumento sueldo",
+                        6
+                    ],
+                    [
+                        "balance vida",
+                        5
+                    ],
+                    [
+                        "carga trabajo",
+                        5
+                    ],
+                    [
+                        "cultura laboral",
+                        5
+                    ]
+                ],
+                "top_trigrams": [
+                    [
+                        "prestaci\u00f3n superior ley",
+                        6
+                    ],
+                    [
+                        "prestaci\u00f3n ambiente laboral",
+                        5
+                    ],
+                    [
+                        "balance vida personal",
+                        3
+                    ],
+                    [
+                        "depender proyecto tocar",
+                        3
+                    ],
+                    [
+                        "prestaci\u00f3n fondo ahorro",
+                        3
+                    ],
+                    [
+                        "sueldo ambiente laboral",
+                        3
+                    ],
+                    [
+                        "vida personal trabajo",
+                        3
+                    ],
+                    [
+                        "ambiente laboral proyecto",
+                        2
+                    ],
+                    [
+                        "dificil subir puesto",
+                        2
+                    ],
+                    [
+                        "equilibrio vida laboral",
+                        2
+                    ],
+                    [
+                        "equilibrio vida personal",
+                        2
+                    ],
+                    [
+                        "excelente ambiente laboral",
+                        2
+                    ],
+                    [
+                        "falta proyecto faltar",
+                        2
+                    ],
+                    [
+                        "proyecto faltar comunicaci\u00f3n",
+                        2
+                    ],
+                    [
+                        "remoto depender proyecto",
+                        2
+                    ]
+                ]
+            }
+        }
+    },
+    "classifier_metrics": {
+        "accuracy": 0.8066666666666666,
+        "precision_macro": 0.8071581196581197,
+        "recall_macro": 0.8066666666666666,
+        "f1_macro": 0.8065893023876217,
+        "confusion_matrix": [
+            [
+                59,
+                16
+            ],
+            [
+                13,
+                62
+            ]
+        ],
+        "classification_report": "              precision    recall  f1-score   support\n\n        cons       0.79      0.83      0.81        75\n        pros       0.82      0.79      0.80        75\n\n    accuracy                           0.81       150\n   macro avg       0.81      0.81      0.81       150\nweighted avg       0.81      0.81      0.81       150\n"
+    }
+}

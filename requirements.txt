@@ -3,12 +3,12 @@ numpy
 scikit-learn
 matplotlib
 mlflow
-joblib
-argparse
+requests
+beautifulsoup4
+lxml
+selenium
+webdriver-manager
 langdetect
 spacy
 vaderSentiment
 pysentimiento
-requests
-beautifulsoup4
-lxml

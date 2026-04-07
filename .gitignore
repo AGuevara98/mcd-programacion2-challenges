@@ -9,11 +9,10 @@ mlruns/
 outputs/
 .ipynb_checkpoints/
 .DS_Store
-tests/
 # MLflow tracking
 mlflow.db
 mlartifacts/
 
 # Outputs and Data
 plots/
-data/
+data/raw/fullsites/
