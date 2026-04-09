@@ -49,6 +49,9 @@ def run_nlp_pipeline(path: str):
     if raw_df.empty:
         raise ValueError("The scraped CSV is empty.")
 
+    if "review_title" not in raw_df.columns and "title" in raw_df.columns:
+        raw_df = raw_df.rename(columns={"title": "review_title"})
+
     required = {"company", "review_title", "pros", "cons"}
     missing = required - set(raw_df.columns)
     if missing:

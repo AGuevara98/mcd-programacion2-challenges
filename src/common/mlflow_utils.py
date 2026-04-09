@@ -17,4 +17,6 @@ def log_artifact(path: str):
 
 def log_model(model, example_input, run_name="model"):
     import mlflow.sklearn
+    if hasattr(example_input, "to_frame"):
+        example_input = example_input.to_frame(name="text")
     mlflow.sklearn.log_model(model, run_name, input_example=example_input)

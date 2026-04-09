@@ -39,7 +39,7 @@ This repository contains the implementation of three challenges for the Master�
     │       validation.py
     │
     └── nlp_glassdoor
-            local_html_parser.py   # Converts downloaded HTML → CSV
+            scraper_manual_login.py # Live Glassdoor scraper with manual login
             preprocessing.py
             model.py
             pipeline.py
@@ -63,7 +63,7 @@ This repository contains the implementation of three challenges for the Master�
 
 ## 2. NLP — Glassdoor Reviews
 
-* Dataset: Glassdoor reviews (manually collected HTML → parsed to CSV)
+* Dataset: Glassdoor reviews collected with a live browser session
 * Task:
 
   * sentiment analysis
@@ -84,49 +84,33 @@ python -m src.mlops_pipeline --challenge <name>
 
 # ⚠️ Important: Glassdoor Data Collection
 
-The repository **does NOT include raw HTML files** due to:
+The NLP workflow now uses live scraping with a browser session.
 
-* size constraints
-* scraping restrictions
-* reproducibility limitations
+Requirements:
 
-You must collect them manually.
-
-
-
-# How to Collect Glassdoor Data
-
-1. Go to a company’s Glassdoor reviews page
-   Example:
-
-   ```text
-   https://www.glassdoor.com/Reviews/Softtek-Reviews-E5766.htm
-   ```
-
-2. Scroll to load multiple reviews
-
-3. Right-click → **Save Page As** → “Webpage, Complete”
-
-4. Save files into:
-
-```text
-data/raw/fullsites/
-```
-
-You should end up with multiple `.html` or `.htm` files.
+* a valid Glassdoor account session
+* `data/raw/glassdoor_targets.csv` with `company` and `url` columns
+* Playwright browser binaries installed (`playwright install chromium`)
 
 
 
 # NLP Pipeline Workflow
 
-## Step 1 — Parse HTML files into CSV
+Run order:
+
+1. Scrape latest reviews into `data/raw/glassdoor_reviews.csv`
+2. Run the NLP pipeline
+
+If `data/raw/glassdoor_reviews.csv` is already up to date, you can skip Step 1.
+
+## Step 1 — Scrape Glassdoor reviews into CSV
 
 Run:
 
 ```bash
-python -m src.nlp_glassdoor.local_html_parser \
-  --input_folder data/raw/fullsites \
-  --output_csv data/raw/glassdoor_reviews.csv
+python -m src.nlp_glassdoor.scraper_manual_login \
+        --targets-file data/raw/glassdoor_targets.csv \
+        --output-file data/raw/glassdoor_reviews.csv
 ```
 
 Output:
@@ -141,18 +125,15 @@ This file contains:
 * review_title
 * pros
 * cons
-* rating
-* review_date
-* language
+* source_url
+* page_number
 
 
 
 ## Step 2 — Run NLP pipeline
 
 ```bash
-python -m src.mlops_pipeline \
-  --challenge nlp \
-  --data_path data/raw/glassdoor_reviews.csv
+python -m src.mlops_pipeline --challenge nlp
 ```
 
 Outputs:
@@ -169,7 +150,7 @@ Outputs:
 Run:
 
 ```bash
-python -m src.mlops_pipeline --challenge cancer
+python -m src.mlops_pipeline --challenge cancer --data_path data/raw/cancer.csv
 ```
 
 Outputs:
@@ -208,6 +189,12 @@ source mcd_challenges/bin/activate
 pip install -r requirements.txt
 ```
 
+## 4. Install Playwright browser
+
+```bash
+playwright install chromium
+```
+
 
 
 # Notes on Scraping
@@ -219,7 +206,7 @@ pip install -r requirements.txt
 * This project uses:
 
 ```text
-manual download → local parsing → NLP pipeline
+manual login → live scrape → NLP pipeline
 ```
 
 This approach is:
@@ -259,11 +246,9 @@ Each challenge produces:
 # Final Workflow Summary
 
 ```text
-Glassdoor (manual download)
+Glassdoor (manual login)
         ↓
-data/raw/fullsites/*.html
-        ↓
-local_html_parser.py
+scraper_manual_login.py
         ↓
 data/raw/glassdoor_reviews.csv
         ↓

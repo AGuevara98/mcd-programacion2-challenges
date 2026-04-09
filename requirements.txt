@@ -12,3 +12,4 @@ langdetect
 spacy
 vaderSentiment
 pysentimiento
+playwright
