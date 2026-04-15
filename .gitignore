@@ -16,3 +16,5 @@ mlartifacts/
 # Outputs and Data
 plots/
 data/raw/fullsites/
+*.pdf
+*.docx

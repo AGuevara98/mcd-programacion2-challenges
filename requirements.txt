@@ -1,15 +1,28 @@
-pandas
-numpy
-scikit-learn
-matplotlib
-mlflow
-requests
-beautifulsoup4
-lxml
-selenium
-webdriver-manager
-langdetect
-spacy
-vaderSentiment
-pysentimiento
-playwright
+# Development Dependencies
+# Install with: pip install -r requirements.txt
+
+# Unit testing
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+
+# Code quality
+black==23.12.1
+flake8==6.1.0
+isort==5.13.2
+mypy==1.7.1
+
+# Documentation
+sphinx==7.2.6
+sphinx-rtd-theme==2.0.0
+
+# Debugging
+ipython==8.18.1
+ipdb==0.13.13
+
+# Performance profiling
+memory-profiler==0.61.0
+line-profiler==4.1.1
+
+# Pre-commit hooks
+pre-commit==3.5.0
