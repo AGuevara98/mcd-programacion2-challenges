@@ -84,7 +84,7 @@ python -m src.mlops_pipeline --challenge <name>
 
 # ⚠️ Important: Glassdoor Data Collection
 
-The NLP workflow now uses live scraping with a browser session.
+The NLP workflow uses live scraping with a browser session.
 
 Requirements:
 
@@ -465,17 +465,6 @@ Each challenge produces:
 * reproducible pipeline
 * modular structure
 * consistent outputs across challenges
-
-
-
-# Final Workflow Summary
-
-```text
-Glassdoor (manual login)
-        ↓
-scraper_manual_login.py
-        ↓
-data/raw/glassdoor_reviews.csv
         ↓
 mlops_pipeline.py (nlp)
         ↓
