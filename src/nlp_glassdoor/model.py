@@ -88,30 +88,20 @@ def run_vader_sentiment(df: pd.DataFrame, text_col: str = "raw_text") -> pd.Data
         return out
 
     analyzer = SentimentIntensityAnalyzer()
-    compounds = []
-    labels = []
 
-    for _, row in out.iterrows():
-        text = row[text_col]
-        lang = row.get("language", "unknown")
-
-        if lang != "en":
-            compounds.append(None)
-            labels.append("not_applicable")
-            continue
-
-        score = analyzer.polarity_scores(text)["compound"]
-        compounds.append(score)
-
+    def _score_row(row) -> pd.Series:
+        if row.get("language", "unknown") != "en":
+            return pd.Series({"vader_compound": None, "vader_label": "not_applicable"})
+        score = analyzer.polarity_scores(row[text_col])["compound"]
         if score >= 0.05:
-            labels.append("positive")
+            label = "positive"
         elif score <= -0.05:
-            labels.append("negative")
+            label = "negative"
         else:
-            labels.append("neutral")
+            label = "neutral"
+        return pd.Series({"vader_compound": score, "vader_label": label})
 
-    out["vader_compound"] = compounds
-    out["vader_label"] = labels
+    out[["vader_compound", "vader_label"]] = out.apply(_score_row, axis=1)
     return out
 
 
@@ -123,26 +113,19 @@ def run_pysentimiento(df: pd.DataFrame, text_col: str = "raw_text") -> pd.DataFr
         out["pysentimiento_score"] = None
         return out
 
-    analyzers = {}
-    labels = []
-    scores = []
+    analyzers: dict = {}
 
-    for _, row in out.iterrows():
-        text = row[text_col]
+    def _score_row(row) -> pd.Series:
         lang = row.get("language", "unknown")
-
         if lang not in {"en", "es"}:
-            labels.append("not_applicable")
-            scores.append(None)
-            continue
-
+            return pd.Series({"pysentimiento_label": "not_applicable", "pysentimiento_score": None})
         if lang not in analyzers:
             analyzers[lang] = create_analyzer(task="sentiment", lang=lang)
+        pred = analyzers[lang].predict(row[text_col])
+        return pd.Series({
+            "pysentimiento_label": pred.output,
+            "pysentimiento_score": float(max(pred.probas.values())),
+        })
 
-        pred = analyzers[lang].predict(text)
-        labels.append(pred.output)
-        scores.append(float(max(pred.probas.values())))
-
-    out["pysentimiento_label"] = labels
-    out["pysentimiento_score"] = scores
+    out[["pysentimiento_label", "pysentimiento_score"]] = out.apply(_score_row, axis=1)
     return out

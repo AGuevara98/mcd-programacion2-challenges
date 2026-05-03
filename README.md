@@ -10,39 +10,49 @@ This repository contains the implementation of three challenges for the Master�
 .
 │   README.md
 │   requirements.txt
+│   upload_results.py
 │
-├── data
-│   ├── raw              # Input data (CSV, manually collected HTML-derived data)
-│   ├── processed        # Cleaned / intermediate datasets
-│   └── metrics          # Model evaluation outputs (JSON, CSV)
-│
-├── models
-│   ├── cancer           # Saved cancer models
-│   └── nlp              # Saved NLP models
-│
-├── plots
-│   ├── cancer           # Visualizations for cancer challenge
-│   └── nlp              # Visualizations for NLP challenge
-│
-└── src
-    │   mlops_pipeline.py
-    │
-    ├── cancer
-    │       pipeline.py
-    │
-    ├── common
-    │       config.py
-    │       evaluation.py
-    │       io_utils.py
-    │       mlflow_utils.py
-    │       preprocessing.py
-    │       validation.py
-    │
-    └── nlp_glassdoor
-            scraper_manual_login.py # Live Glassdoor scraper with manual login
-            preprocessing.py
-            model.py
-            pipeline.py
+├── cache/                         # local cache files
+├── data/                          # datasets and processed outputs
+│   ├── raw/
+│   ├── processed/
+│   └── metrics/
+├── docs/                          # project documentation and setup guides
+├── mlartifacts/                   # persisted ML artifacts (local store)
+├── mlruns/                        # MLflow tracking DB/artifacts
+├── models/                        # saved trained models
+├── plots/                         # visualizations
+├── mcd_challenges/                # local virtualenv (not committed)
+└── src/                           # source code
+  │   mlops_pipeline.py
+  │
+  ├── cancer/
+  │       pipeline.py
+  │       # model training + evaluation
+  │
+  ├── common/
+  │       config.py
+  │       evaluation.py
+  │       io_utils.py
+  │       mlflow_utils.py
+  │       preprocessing.py
+  │       validation.py
+  │
+  ├── nlp_glassdoor/
+  │       scraper_manual_login.py
+  │       preprocessing.py
+  │       model.py
+  │       pipeline.py
+  │
+  └── thesis/                     # Thesis geospatial PoC pipeline
+      __init__.py
+      pipeline.py             # Phase 1-3 orchestration
+      network_synthesis.py    # Steiner tree network optimization
+      modeling.py             # LightGBM + RF training
+      critic.py               # CRITIC weighting
+      data_access.py          # PostGIS/DuckDB connectors
+      credentials_template.py # Credential template (copy to credentials.py)
+      credentials.py          # Database credentials (not in git)
 ```
 
 
@@ -72,7 +82,19 @@ This repository contains the implementation of three challenges for the Master�
 
 
 
-## 3. General MLOps Pipeline
+## 3. Thesis — Transit Route Suitability PoC
+
+* Dataset: PostGIS geospatial features (AGEB accessibility, employment, vitality)
+* Task: Multi-phase pipeline (CRITIC weighting → predictive modeling → network optimization)
+* Output:
+
+  * suitability scores per AGEB
+  * optimized transit corridors
+  * MLflow tracking with SHAP explainability
+
+
+
+## 4. General MLOps Pipeline
 
 * Unified execution through:
 
@@ -100,6 +122,8 @@ Run order:
 
 1. Scrape latest reviews into `data/raw/glassdoor_reviews.csv`
 2. Run the NLP pipeline
+
+The scraper is a separate manual/browser-assisted step and is not invoked by `src.mlops_pipeline.py`. The NLP pipeline expects the CSV to already exist and only processes the prepared data.
 
 If `data/raw/glassdoor_reviews.csv` is already up to date, you can skip Step 1.
 
@@ -160,8 +184,160 @@ Outputs:
 * plots → `plots/cancer/`
 
 
+# Thesis Pipeline Workflow — Transit Route Suitability
+
+This is a **3-phase geospatial PoC** that predicts transit route suitability in Guadalajara (ZMG) using multi-criteria weighting, LightGBM modeling with SHAP explainability, and Steiner-tree network optimization.
+
+## Prerequisites
+
+### 1. Database Setup (WSL/Linux with PostgreSQL + PostGIS)
+
+The thesis pipeline requires a **PostgreSQL database with PostGIS extension** running in WSL (Windows Subsystem for Linux) or natively on Linux.
+
+**To set up the database locally:**
+
+1. Clone the database setup repository:
+```bash
+git clone https://github.com/AGuevara98/predictive-transit-zmg.git
+cd predictive-transit-zmg
+```
+
+2. Follow the setup instructions in [`SETUP.md`](https://github.com/AGuevara98/predictive-transit-zmg/blob/main/SETUP.md) to:
+   - Install PostgreSQL and PostGIS in WSL
+   - Load base geospatial data (AGEB boundaries, route supply, employment, accessibility)
+   - Initialize the `gdl_metro` database with `raw`, `base`, and `features` schemas
+
+3. Verify the database is running:
+```bash
+# In WSL
+pg_isready -h localhost -p 5432
+```
+
+### 2. Configure Credentials
+
+The thesis pipeline reads PostgreSQL credentials from `src/thesis/credentials.py`, which is **NOT committed to git** for security.
+
+**To set up credentials:**
+
+1. Copy the template:
+```bash
+cp src/thesis/credentials_template.py src/thesis/credentials.py
+```
+
+2. Edit `src/thesis/credentials.py` with your database connection details:
+```python
+PG_USER = "your_username"
+PG_PASS = "your_password"
+PG_HOST = "localhost"        # or your WSL IP
+PG_PORT = "5432"
+PG_DB = "gdl_metro"
+```
+
+3. The file is automatically excluded from git (see `.gitignore`)
+
+## Running the Pipeline
+
+### Quick Run (Default: PostGIS Data)
+
+```bash
+python -m src.mlops_pipeline --challenge thesis
+```
+
+This loads suitability data directly from the `features.thesis_ageb_scored` table in PostGIS.
+
+
+## Pipeline Output
+
+The thesis pipeline produces three phases of outputs:
+
+### Phase 1: CRITIC Weighting & Labeling
+- Computes objective multi-criteria weights for NP-RV (Node-Place-Real Estate-Vitality) indicators
+- Auto-labels AGEBs as Balanced/Unbalanced if target column missing
+
+### Phase 2: Predictive Modeling with MLflow
+- Trains LightGBM and Random Forest models with 5-fold cross-validation
+- Logs metrics, SHAP summary plots, ROC curves, and feature importance to MLflow
+- Persists scored AGEBs to `features.thesis_ageb_scored` in PostGIS
+
+**MLflow Outputs:**
+```
+Experiment: thesis_run
+├── lightgbm_model (nested run)
+│   ├── Metrics: accuracy, precision, recall, F1, ROC-AUC
+│   ├── Artifacts: shap_summary.png, roc_curve.png, feature_importance.csv
+│   └── Model: lightgbm_model with input examples
+└── random_forest_model (nested run)
+    ├── Metrics: (same as LightGBM)
+    ├── Artifacts: (same as LightGBM)
+    └── Model: random_forest_model with input examples
+```
+
+Access results at: **http://localhost:5000**
+
+### Phase 3: Steiner Tree Network Synthesis
+- Builds suitability-weighted street network from OSMnx
+- Selects top 12 high-suitability AGEBs as terminals
+- Runs Steiner tree approximation to find optimal corridors connecting terminals
+- Persists optimized corridors to `features.thesis_steiner_corridors` in PostGIS (1,275+ edges)
+
+**PostGIS Output Tables:**
+```sql
+-- Scored AGEBs with suitability predictions
+SELECT * FROM features.thesis_ageb_scored LIMIT 10;
+
+-- Optimized transit corridors
+SELECT * FROM features.thesis_steiner_corridors LIMIT 10;
+```
+
+## Monitoring Progress
+
+The pipeline includes detailed progress logging, especially during long-running Steiner synthesis:
+
+```
+[08:43:12] [steiner] Initializing Steiner run from PostGIS
+[08:43:20] [steiner] Loading boundary geometry from base.ageb
+[08:44:14] [steiner] Graph ready: 81958 nodes, 197399 edges
+[08:44:26] [steiner] Mapping 2068 centroids to nearest graph nodes
+[08:50:17] [steiner] Suitability edge weighting complete
+[08:50:20] [steiner] Building undirected graph for Steiner approximation with 12 terminals
+[08:50:22] [steiner] Steiner result: 759 nodes, 758 edges
+[08:50:26] [steiner] Steiner corridor GeoDataFrame contains 1275 edges
+```
+
+## Troubleshooting
+
+### "Connection refused" or "Host unreachable"
+
+**Issue**: PostgreSQL in WSL unreachable from Windows.
+
+**Solution**: 
+- Verify WSL PostgreSQL is running: `wsl -d Ubuntu -e pg_isready -h localhost`
+- Pipeline automatically falls back to WSL IP if localhost fails
+- Or manually set `PG_HOST` in `credentials.py` to your WSL's IP address (e.g., `192.168.1.100`)
+
+### "Table not found" error
+
+**Issue**: Required feature tables not in PostGIS.
+
+**Solution**: 
+- Ensure database setup completed (see [predictive-transit-zmg setup](https://github.com/AGuevara98/predictive-transit-zmg))
+- Tables required: `base.ageb`, `features.ageb_accessibility`, `features.ageb_employment`, `features.ageb_route_supply`, `features.ageb_economic_activity`
+- Pipeline will synthesize missing tables from available ones if possible
+
+### "credentials.py not found"
+
+**Issue**: Credentials file missing.
+
+**Solution**:
+```bash
+cp src/thesis/credentials_template.py src/thesis/credentials.py
+# Edit with your database details
+```
+
 
 ---
+
+
 
 ## 📚 Documentation
 
@@ -254,18 +430,20 @@ python src/mlops_pipeline.py --challenge nlp --data_path data/raw/glassdoor_revi
 
 ### 3. Thesis Challenge 🎓
 
-**Generic ML pipeline template for custom projects**
+**Transit route suitability geospatial PoC (ZMG)**
 
-- **Framework**: Flexible classification/regression pipeline
-- **Features**: Automatic feature encoding, configurable preprocessing
-- **Customizable**: Data, models, metrics, features
-- **Use Cases**: Any structured data classification/regression task
+- **Framework**: 3-phase pipeline (CRITIC weighting -> predictive modeling -> network synthesis)
+- **Data**: PostGIS features for AGEB accessibility, employment, route supply, and vitality
+- **Models**: LightGBM + Random Forest with SHAP explainability and MLflow tracking
+- **Output**: AGEB suitability scores + optimized Steiner corridor network
 
 ```bash
+# Default: load directly from PostGIS
+python src/mlops_pipeline.py --challenge thesis
+
+# Optional: run with custom input
 python src/mlops_pipeline.py --challenge thesis --data_path data/my_dataset.csv --target_column label
 ```
-
-**Documentation**: [docs/CODE_STRUCTURE.md#thesis](docs/CODE_STRUCTURE.md#thesis-challenge-thesis-pipelinepy)
 
 ---
 
@@ -290,7 +468,7 @@ mcd-programacion2-challenges/
 │   ├── mlops_pipeline.py        # Entry point for all challenges
 │   ├── cancer/                  # Cancer detection challenge
 │   ├── nlp_glassdoor/           # NLP Glassdoor challenge
-│   ├── thesis/                  # Thesis template
+│   ├── thesis/                  # Thesis geospatial pipeline
 │   └── common/                  # Shared utilities
 ├── data/                        # Data storage
 │   ├── raw/                     # Raw data (cancer.csv, glassdoor_reviews.csv)
@@ -331,6 +509,9 @@ python src/mlops_pipeline.py --challenge cancer --data_path data/raw/cancer.csv
 # NLP challenge
 python src/mlops_pipeline.py --challenge nlp --data_path data/raw/glassdoor_reviews.csv
 
+# Thesis challenge (default PostGIS)
+python src/mlops_pipeline.py --challenge thesis
+
 # Thesis challenge (custom data)
 python src/mlops_pipeline.py --challenge thesis --data_path data/my_data.csv --target_column target
 ```
@@ -347,15 +528,6 @@ results = run_cancer_pipeline("data/raw/cancer.csv")
 print(results)
 ```
 
-### Option 3: Docker
-
-```bash
-# Build image
-docker build -t mcd-challenges:latest .
-
-# Run container
-docker run -p 5000:5000 -v ./mlruns:/app/mlruns mcd-challenges:latest
-```
 
 ---
 
@@ -414,10 +586,10 @@ mlflow ui --host 127.0.0.1 --port 5000
 - **variable size** depending on scraping run
 - **Terms**: See Glassdoor Terms of Service
 
-### Custom Thesis Data
-- User-provided dataset in CSV format
-- Flexible schema (any features + target column)
-- Automatically preprocessed and analyzed
+### Thesis Data (Transit Suitability)
+- Primary source: PostGIS database (gdl_metro) with base and features schemas
+- Optional source: CSV or SQL/table references via --data_path
+- Includes geospatial indicators for NP-RV-style suitability modeling
 
 **Full details**: [docs/DATASET_DOCUMENTATION.md](docs/DATASET_DOCUMENTATION.md)
 

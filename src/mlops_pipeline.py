@@ -1,5 +1,17 @@
 import argparse
+import os
+import sys
+from pathlib import Path
+
+# Disable MLflow URL prints to avoid emoji output on cp1252 terminals.
+os.environ.setdefault("MLFLOW_SUPPRESS_PRINTING_URL_TO_STDOUT", "true")
+
 import mlflow
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.common.config import RAW_DATA_DIR
 from src.common.mlflow_utils import setup_mlflow
@@ -36,8 +48,6 @@ def main():
                 res = run_nlp_pipeline(data_path)
                 
             elif args.challenge == "thesis":
-                if not args.data_path:
-                    raise ValueError("--data_path is required for the thesis challenge.")
                 res = run_thesis_pipeline(args.data_path, target_column=args.target_column)
             
             print("\n" + "="*60)

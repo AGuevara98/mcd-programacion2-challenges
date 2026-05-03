@@ -29,7 +29,10 @@ pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 python -m spacy download es_core_news_sm
 
-# 6. Verify installation
+# 6. Pre-download pysentimiento weights (recommended for NLP)
+python -c "from pysentimiento import create_analyzer; create_analyzer(task='sentiment', lang='en'); create_analyzer(task='sentiment', lang='es'); print('pysentimiento models cached')"
+
+# 7. Verify installation
 python -c "import mlflow; print('MLflow installed:', mlflow.__version__)"
 ```
 
@@ -123,6 +126,16 @@ python -m spacy download es_core_news_sm
 - en_core_web_sm: ~40MB
 - es_core_news_sm: ~35MB
 - Total download: ~75MB
+
+### Step 6: Pre-download pysentimiento Weights
+
+This is optional but recommended before the first NLP pipeline run so the model download does not happen during execution:
+
+```bash
+python -c "from pysentimiento import create_analyzer; create_analyzer(task='sentiment', lang='en'); create_analyzer(task='sentiment', lang='es'); print('pysentimiento models cached')"
+```
+
+This warms the local cache for the English and Spanish sentiment models used by the NLP pipeline.
 
 
 ## Running the Pipelines

@@ -18,3 +18,7 @@ plots/
 data/raw/fullsites/
 *.pdf
 *.docx
+
+# Credentials (never commit)
+src/thesis/credentials.py
+cache/

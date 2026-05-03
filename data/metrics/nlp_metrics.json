@@ -29,7 +29,7 @@
                     ],
                     [
                         "good work",
-                        767
+                        766
                     ],
                     [
                         "smart people",
@@ -40,7 +40,7 @@
                         501
                     ],
                     [
-                        "collaboration gatekeeping",
+                        "collaboration gatekeepe",
                         500
                     ],
                     [
@@ -64,7 +64,7 @@
                         500
                     ],
                     [
-                        "gatekeeping knowledge",
+                        "gatekeepe knowledge",
                         500
                     ],
                     [
@@ -86,7 +86,7 @@
                         758
                     ],
                     [
-                        "collaboration gatekeeping knowledge",
+                        "collaboration gatekeepe knowledge",
                         500
                     ],
                     [
@@ -98,7 +98,7 @@
                         500
                     ],
                     [
-                        "gatekeeping knowledge lack",
+                        "gatekeepe knowledge lack",
                         500
                     ],
                     [
@@ -122,7 +122,7 @@
                         500
                     ],
                     [
-                        "lack collaboration gatekeeping",
+                        "lack collaboration gatekeepe",
                         500
                     ],
                     [
@@ -147,11 +147,11 @@
                     ],
                     [
                         "ambiente trabajo",
-                        215
+                        217
                     ],
                     [
                         "trabajo remoto",
-                        191
+                        188
                     ],
                     [
                         "oportunidad crecimiento",
@@ -159,15 +159,11 @@
                     ],
                     [
                         "home office",
-                        148
+                        136
                     ],
                     [
                         "sueldo competitivo",
                         132
-                    ],
-                    [
-                        "carga trabajo",
-                        105
                     ],
                     [
                         "prestaci\u00f3n superior",
@@ -178,8 +174,8 @@
                         101
                     ],
                     [
-                        "horario flexible",
-                        96
+                        "carga trabajo",
+                        99
                     ],
                     [
                         "flexibilidad horario",
@@ -188,6 +184,10 @@
                     [
                         "fondo ahorro",
                         95
+                    ],
+                    [
+                        "horario flexible",
+                        94
                     ],
                     [
                         "crecimiento profesional",
@@ -228,14 +228,6 @@
                         25
                     ],
                     [
-                        "balance vida trabajo",
-                        25
-                    ],
-                    [
-                        "ahorro val despensa",
-                        22
-                    ],
-                    [
                         "gasto medico mayor",
                         22
                     ],
@@ -248,10 +240,6 @@
                         18
                     ],
                     [
-                        "fondo ahorro val",
-                        18
-                    ],
-                    [
                         "gasto m\u00e9dico mayor",
                         18
                     ],
@@ -260,28 +248,40 @@
                         18
                     ],
                     [
-                        "vida personal trabajo",
-                        18
+                        "ahorro val despensa",
+                        17
+                    ],
+                    [
+                        "excelente clima laboral",
+                        17
+                    ],
+                    [
+                        "fondo ahorro val",
+                        15
+                    ],
+                    [
+                        "prestaci\u00f3n ambiente trabajo",
+                        15
                     ]
                 ]
             }
         }
     },
     "classifier_metrics": {
-        "accuracy": 0.9437229437229437,
-        "precision_macro": 0.94374856980504,
-        "recall_macro": 0.943724619801844,
-        "f1_macro": 0.9437222687403158,
+        "accuracy": 0.945021645021645,
+        "precision_macro": 0.9450679224397913,
+        "recall_macro": 0.9450238835523854,
+        "f1_macro": 0.9450203983186591,
         "confusion_matrix": [
             [
                 2172,
                 139
             ],
             [
-                121,
-                2188
+                115,
+                2194
             ]
         ],
-        "classification_report": "              precision    recall  f1-score   support\n\n        cons       0.94      0.95      0.94      2309\n        pros       0.95      0.94      0.94      2311\n\n    accuracy                           0.94      4620\n   macro avg       0.94      0.94      0.94      4620\nweighted avg       0.94      0.94      0.94      4620\n"
+        "classification_report": "              precision    recall  f1-score   support\n\n        cons       0.94      0.95      0.95      2309\n        pros       0.95      0.94      0.94      2311\n\n    accuracy                           0.95      4620\n   macro avg       0.95      0.95      0.95      4620\nweighted avg       0.95      0.95      0.95      4620\n"
     }
 }
