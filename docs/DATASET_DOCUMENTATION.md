@@ -178,7 +178,7 @@ The dataset contains bilingual content:
 | Issue | Detection | Solution |
 |-------|-----------|----------|
 | **Missing Pros/Cons** | Some reviews have null values | Handled by optional expansion in `expand_reviews_to_segments()` |
-| **HTML Entities** | Review text may contain HTML entities | Cleaned during scraping / preprocessing (DOM text extraction via Playwright) |
+| **HTML Entities** | Review text may contain HTML entities | Cleaned by BeautifulSoup during scraping |
 | **Non-ASCII Characters** | Accented characters in Spanish text | Preserved in `clean_text()` with character set: `[a-záéíóúñü\s]` |
 | **URLs/Emails** | May appear in cons/pros text | Regex pattern removes: `http\S+\|www\.\S+` |
 | **Special Characters** | Punctuation, symbols | Removed during `clean_text()` |
