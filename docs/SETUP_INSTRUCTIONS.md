@@ -99,13 +99,18 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+```bash
+# Install Playwright browsers (required for scraping)
+python -m playwright install chromium
+```
+
 **What gets installed:**
 - `pandas`: Data manipulation
 - `numpy`: Numerical computing
 - `scikit-learn`: Machine learning models
 - `mlflow`: Experiment tracking
 - `spacy`: NLP preprocessing
-- `selenium`: Web scraping
+- `playwright`: Web scraping (used by the project scraper)
 - `vaderSentiment`: Sentiment analysis
 - `pysentimiento`: Spanish sentiment analysis
 - Plus 8 more dependencies (see requirements.txt)
@@ -168,7 +173,7 @@ mlflow ui --host 127.0.0.1 --port 5000
 
 ```bash
 # Run cancer detection pipeline
-python src/mlops_pipeline.py --challenge cancer --data_path data/raw/cancer.csv
+python -m src.mlops_pipeline --challenge cancer --data_path data/raw/cancer.csv
 ```
 
 **Expected output:**
@@ -189,7 +194,7 @@ Pipeline completed successfully.
 
 ```bash
 # Run NLP pipeline
-python src/mlops_pipeline.py --challenge nlp --data_path data/raw/glassdoor_reviews.csv
+python -m src.mlops_pipeline --challenge nlp --data_path data/raw/glassdoor_reviews.csv
 ```
 
 **Expected output:**
