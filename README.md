@@ -343,10 +343,13 @@ cp src/thesis/credentials_template.py src/thesis/credentials.py
 
 **Complete documentation is available in the `docs/` directory:**
 
+- **[docs/README.md](docs/README.md)** - Documentation index and quick start guide
 - **[docs/SETUP_INSTRUCTIONS.md](docs/SETUP_INSTRUCTIONS.md)** - Detailed installation and deployment guide
 - **[docs/DATASET_DOCUMENTATION.md](docs/DATASET_DOCUMENTATION.md)** - All three datasets explained
 - **[docs/MODEL_CONSTRUCTION.md](docs/MODEL_CONSTRUCTION.md)** - Model details, training, hyperparameters
 - **[docs/MLOPS_DOCUMENTATION.md](docs/MLOPS_DOCUMENTATION.md)** - MLflow tracking and experiment management
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - System architecture and data flow diagrams
+- **[docs/CODE_STRUCTURE.md](docs/CODE_STRUCTURE.md)** - Code organization and extension guide
 
 ---
 
@@ -378,7 +381,7 @@ python -m spacy download es_core_news_sm
 mlflow ui --host 127.0.0.1 --port 5000
 
 # 5. Run cancer pipeline
-python -m src.mlops_pipeline --challenge cancer --data_path data/raw/cancer.csv
+python src/mlops_pipeline.py --challenge cancer --data_path data/raw/cancer.csv
 
 # 6. View results at http://127.0.0.1:5000
 ```
@@ -400,7 +403,7 @@ python -m src.mlops_pipeline --challenge cancer --data_path data/raw/cancer.csv
 - **Metrics**: Accuracy, Precision, Recall, F1-Score, ROC-AUC
 
 ```bash
-python -m src.mlops_pipeline --challenge cancer --data_path data/raw/cancer.csv
+python src/mlops_pipeline.py --challenge cancer --data_path data/raw/cancer.csv
 ```
 
 **Documentation**: [docs/MODEL_CONSTRUCTION.md#cancer](docs/MODEL_CONSTRUCTION.md#1-cancer-detection-models)
@@ -487,7 +490,7 @@ mcd-programacion2-challenges/
 - `scikit-learn` - Machine learning
 - `mlflow` - Experiment tracking
 - `spacy` - NLP preprocessing
-- `playwright` - Web scraping
+- `selenium`, `beautifulsoup4` - Web scraping
 - `matplotlib` - Visualization
 - `vaderSentiment`, `pysentimiento` - Sentiment analysis
 

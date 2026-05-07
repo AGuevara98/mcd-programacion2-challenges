@@ -359,7 +359,7 @@ def main():
 mlflow ui --host 127.0.0.1 --port 5000
 
 # Run pipeline (logs to MLflow)
-python -m src.mlops_pipeline --challenge cancer --data_path data/raw/cancer.csv
+python src/mlops_pipeline.py --challenge cancer --data_path data/raw/cancer.csv
 
 # View results at http://127.0.0.1:5000
 ```
@@ -376,7 +376,7 @@ mlflow ui --host 127.0.0.1 --port 5000
 
 # Terminal 2: Run your pipelines
 cd /path/to/project
-python -m src.mlops_pipeline ...
+python src/mlops_pipeline.py ...
 ```
 
 ### Accessing the UI
